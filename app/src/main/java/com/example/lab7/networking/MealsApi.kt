@@ -8,11 +8,11 @@ import retrofit2.http.GET;
 interface MealsApi {
 
     @GET("categories.php")
-    suspend fun getCategories(): Categories_Data
+    fun getCategories(): Categories_Data
 
     @GET("filter.php")
-    suspend fun getFilters(): Filter_Data
+    fun getFilters(): Filter_Data
 
     @GET("lookup.php")
-    suspend fun getLookups(): Lookup_Data
+    fun getLookups(): Lookup_Data
 }
