@@ -29,11 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.lab7.networking.response.MealDetailList
+import com.example.lab7.ui.categories.view.MealCategoriesMainApp
 import com.example.lab7.ui.mealdetail.viewmodel.MealDetailsViewModel
 
 
@@ -51,7 +53,6 @@ class MealDetail:ComponentActivity(){
 fun MealDetailMainApp(mealId:String?) {
     val viewModel: MealDetailsViewModel = viewModel() //ViewModel con la lista de comidas de la categoría
     val mealDetails: MutableState<List<MealDetailList>> = remember { mutableStateOf(emptyList()) } //Lista de estado mutable que guarda todas las comidas y sus detalles
-    val backgroundcolor= Color(android.graphics.Color.parseColor("#F7F0C6"))
 
     if (mealId != null) { //Llama a la función para obtener el detalle del platillo seleccionado desde la API
         viewModel.getMealById(mealId) { response ->
@@ -60,13 +61,9 @@ fun MealDetailMainApp(mealId:String?) {
         }
     }
 
-    val gradientBrush = Brush.horizontalGradient(
-        colors = listOf(Color(0xFF5733), Color(0xFF5733)) // Degradado
-    )
-
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = backgroundcolor
+        color = Color(135, 139, 230)
     ) {
         LazyColumn( //Despliega el detalle de la comida en un LazyColumn
             modifier = Modifier
@@ -75,7 +72,7 @@ fun MealDetailMainApp(mealId:String?) {
         ) {
             mealDetails?.let { details ->
                 itemsIndexed(mealDetails.value) {index,detail ->
-                    MealDetailItem(detail = detail, gradientBrush= gradientBrush)
+                    MealDetailItem(detail = detail,)
                 }
             }
         }
@@ -83,7 +80,7 @@ fun MealDetailMainApp(mealId:String?) {
 }
 
 @Composable
-fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
+fun MealDetailItem(detail: MealDetailList) {
 
     Column(
         modifier = Modifier
@@ -97,7 +94,7 @@ fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
                 .fillMaxWidth()
                 .height(200.dp)
                 .shadow(8.dp, shape = RoundedCornerShape(8.dp))
-                .background(brush = gradientBrush),
+                .background( Color(135, 139, 230))
         ) {
             Image(
                 painter = painter,
@@ -126,7 +123,7 @@ fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
             text = "Category: ${detail.category}",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
-            color= Color.Gray,
+            color= Color.Black,
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .align(Alignment.CenterHorizontally)
@@ -139,7 +136,7 @@ fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
             text = "Area: ${detail.area}",
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
-            color= Color.Gray,
+            color= Color.Black,
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .align(Alignment.CenterHorizontally)
@@ -151,7 +148,7 @@ fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color(0xFFEFEFEF))
+                .background(color = Color.LightGray)
                 .padding(16.dp)
         ) {
             Column {
@@ -207,13 +204,11 @@ fun MealDetailItem(detail: MealDetailList, gradientBrush: Brush) {
                 text = if (index == 0) instruction else " $instruction", // Agrega viñetas a las líneas no vacías
                 fontSize = 16.sp,
                 textAlign = TextAlign.Justify,
-
-
-
-                )
+            )
         }
     }
 }
+
 // Funciones para obtener los ingredientes y medidas a partir de su index
 private fun MealDetailList.getIngredient(index: Int): String {
     when (index) {
@@ -265,4 +260,10 @@ private fun MealDetailList.getMeasure(index: Int): String {
         20-> return strMeasure20
         else -> return ""
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMealDetailMainApp() {
+    MealDetailMainApp(mealId = "1234")
 }

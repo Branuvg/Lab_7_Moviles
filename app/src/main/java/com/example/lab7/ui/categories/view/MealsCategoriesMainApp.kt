@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -69,7 +69,7 @@ fun MealCategoriesMainApp() {
             text = "Meal Categories",
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
-            color = Color.DarkGray,
+            color = Color.Black,
             modifier = Modifier.padding(16.dp)
         )
         //La lista de categorías se despliegan en una LazyColumn
@@ -83,12 +83,11 @@ fun MealCategoriesMainApp() {
 
 @Composable
 fun CategoryItem(meal: MealResponse, context: Context) {
-    val customcolor= Color(0xFFEFDCAC)
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(color=customcolor)
+            .background(Color(52, 58, 235))
             .clickable {
                 val intent = Intent(context, MealFilter::class.java)
                 intent.putExtra("category", meal.name) // Agrega el valor de la categoría como un extra
@@ -97,7 +96,7 @@ fun CategoryItem(meal: MealResponse, context: Context) {
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(12.dp)
                 .fillMaxWidth()
         ) {
             //Imagen de la comida
@@ -107,23 +106,28 @@ fun CategoryItem(meal: MealResponse, context: Context) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop
+                    .height(150.dp),
             ) //Nombre de la comida
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = meal.name,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.DarkGray,
+                fontSize = 15.sp,
+                color = Color.Black,
             ) //Descripción de la comida
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = meal.description,
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 color = Color.Black,
                 textAlign = TextAlign.Justify
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMealCategoriesMainApp() {
+    MealCategoriesMainApp()
 }

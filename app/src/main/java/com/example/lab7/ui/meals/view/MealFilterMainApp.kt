@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -69,7 +70,7 @@ fun MealFilterMainApp(category: String?) {
                 text = "Available Meals",
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                color = Color.DarkGray,
+                color = Color.Black,
                 modifier = Modifier.padding(16.dp)
             )
 
@@ -85,12 +86,11 @@ fun MealFilterMainApp(category: String?) {
 
 @Composable
 fun MealItem(meal: Meals, context: Context) {
-    val backgroundcolor= Color(android.graphics.Color.parseColor("#DEB866"))
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(color= backgroundcolor)
+            .background(Color(81, 86, 232))
             .clickable {
                 val intent = Intent(context, MealDetail::class.java)
                 intent.putExtra("mealId", meal.idmeal) // Agrega el valor de la categoría como un extra
@@ -109,19 +109,24 @@ fun MealItem(meal: Meals, context: Context) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
-                contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text( //Nombre de la comida
                 text = meal.stringMeal,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.DarkGray,
+                fontSize = 15.sp,
+                color = Color.Black,
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
                     .align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMealFilterMainApp() {
+    // Llamamos a MealFilterMainApp pasando una categoría de ejemplo
+    MealFilterMainApp(category = "Dessert")
 }
